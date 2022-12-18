@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:lavie/presentation/screen/login/view/login_view.dart';
 
+import '../../application/di.dart';
 import '../screen/splash/view/splash_screen.dart';
 import 'strings_manger.dart';
 
@@ -24,8 +25,9 @@ class RouteGenerator {
           builder: (_) => const SplashView(),
         );
       case Routes.onBoardingRoute:
+        initLoginModule();
         return MaterialPageRoute(
-          builder: (_) => const LoginView(),
+          builder: (_) =>  const LoginView(),
         );
       // case Routes.loginRoute:
       //   initLoginModule();

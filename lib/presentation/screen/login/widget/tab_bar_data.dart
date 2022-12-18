@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:lavie/presentation/resources/font_manger.dart';
 import 'package:lavie/presentation/resources/values_manger.dart';
+import 'package:lavie/presentation/screen/login/cubit/login_cubit.dart';
+import 'package:lavie/presentation/screen/login/widget/text_form_data.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../resources/strings_manger.dart';
 
 class TabBarData extends StatelessWidget {
-  const TabBarData({
+ final LoginCubit controller;
+
+  const TabBarData( {
+required this.controller,
     super.key,
   });
 
@@ -40,36 +45,46 @@ class TabBarData extends StatelessWidget {
                 right: AppPadding.p20,
                 top: AppPadding.p20,
               ),
-              child: Column(
-                children: [
-                  Row(
+              child: SingleChildScrollView(
+                child: Form(
+                  key:controller.registerFormKey ,
+                  child: Column(
                     children: [
-                      SizedBox(width: AppPadding.p42.w,child: const TextFormFieldData(text: "First Name")),
-                      SizedBox(width: AppPadding.p5.w,),
-                      SizedBox(width: AppPadding.p42_5.w,child: const TextFormFieldData(text: "Last Name")),
+                      Row(
+                        children: [
+                          SizedBox(width: AppPadding.p42.w,child:  TextFormFieldData(text: AppStrings.firstName,textInputAction: TextInputAction.next,
+                              textInputType: TextInputType.name,controller: controller.firstName )),
+                          SizedBox(width: AppPadding.p5.w,),
+                          SizedBox(width: AppPadding.p42_5.w,child:  TextFormFieldData(text: AppStrings.lastName,textInputAction: TextInputAction.next,
+                              textInputType: TextInputType.name,controller: controller.lastName)),
+                        ],
+                      ),
+                      SizedBox(
+                        height: AppPadding.p1.h,
+                      ),
+                       TextFormFieldData(text: AppStrings.email,textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.emailAddress,controller: controller.registerEmail),
+                      SizedBox(
+                        height: AppPadding.p1.h,
+                      ),
+                       TextFormFieldData(text: AppStrings.password,textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.visiblePassword,controller: controller.registerPassword),
+                      SizedBox(
+                        height: AppPadding.p1.h,
+                      ),
+                       TextFormFieldData(text: AppStrings.confirmPassword,textInputAction: TextInputAction.done,
+                          textInputType: TextInputType.visiblePassword,controller: controller.registerVisiblePassword),
+                      SizedBox(
+                        height: AppPadding.p2.h,
+                      ),
+                      SizedBox(
+                          width: double.infinity,
+                          height:AppPadding.p6.h,
+                          child: ElevatedButton(
+                              onPressed: () {}, child: const Text(AppStrings.signUp)))
                     ],
                   ),
-                  SizedBox(
-                    height: AppPadding.p1.h,
-                  ),
-                  const TextFormFieldData(text:AppStrings.email ),
-                  SizedBox(
-                    height: AppPadding.p1.h,
-                  ),
-                  const TextFormFieldData(text: AppStrings.password),
-                  SizedBox(
-                    height: AppPadding.p1.h,
-                  ),
-                  const TextFormFieldData(text: AppStrings.confirmPassword),
-                  SizedBox(
-                    height: AppPadding.p2.h,
-                  ),
-                  SizedBox(
-                      width: double.infinity,
-                      height:AppPadding.p6.h,
-                      child: ElevatedButton(
-                          onPressed: () {}, child: const Text(AppStrings.signUp)))
-                ],
+                ),
               ),
             ),
 
@@ -82,27 +97,36 @@ class TabBarData extends StatelessWidget {
                 right:AppPadding.p8.w,
                 top:AppPadding.p5.h,
               ),
-              child: Column(
-                children: [
+              child: SingleChildScrollView(
+                child: Form(
+                  key:controller.loginFormKey ,
+                  child: Column(
+                    children: [
 
-                  SizedBox(
-                    height: AppPadding.p3.h,
-                  ),
-                  const TextFormFieldData(text: AppStrings.email),
-                  SizedBox(
-                    height: AppPadding.p3.h,
-                  ),
-                  const TextFormFieldData(text: AppStrings.password),
+                      SizedBox(
+                        height: AppPadding.p3.h,
+                      ),
+                       TextFormFieldData(text: AppStrings.email,textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.emailAddress,controller: controller.loginEmail),
+                      SizedBox(
+                        height: AppPadding.p3.h,
+                      ),
+                       TextFormFieldData(text: AppStrings.password,textInputAction: TextInputAction.done,
+                          textInputType: TextInputType.visiblePassword,controller: controller.loginPassword),
 
-                  SizedBox(
-                    height: AppPadding.p4.h,
+                      SizedBox(
+                        height: AppPadding.p4.h,
+                      ),
+                      SizedBox(
+                          width: double.infinity,
+                          height: AppPadding.p6.h,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                controller.login();
+                              }, child: const Text(AppStrings.signUp)))
+                    ],
                   ),
-                  SizedBox(
-                      width: double.infinity,
-                      height: AppPadding.p6.h,
-                      child: ElevatedButton(
-                          onPressed: () {}, child: const Text(AppStrings.signUp)))
-                ],
+                ),
               ),
             ),
 
@@ -113,23 +137,4 @@ class TabBarData extends StatelessWidget {
   }
 }
 
-class TextFormFieldData extends StatelessWidget {
-  final String text;
-  const TextFormFieldData({
-    required this.text,
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(alignment: AlignmentDirectional.topStart, child: Text(text)),
-        SizedBox(
-          height: AppPadding.p1.h,
-        ),
-        TextFormField(),
-      ],
-    );
-  }
-}
