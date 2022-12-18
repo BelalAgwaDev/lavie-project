@@ -1,5 +1,5 @@
 class LoginRequest{
-  String nationalId;
+  String email;
   String password;
-  LoginRequest(this.nationalId,this.password);
+  LoginRequest(this.email,this.password);
 }
